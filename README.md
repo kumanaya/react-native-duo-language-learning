@@ -3,7 +3,6 @@
 Duo is the language-learning platform developed in React Native with typescript.
 
 ## Features
-- 
 - 🇺🇸 Questions in english
 - 🇩🇪 Answer in german
 
@@ -18,13 +17,13 @@ You will have higher verbal and non-verbal intelligence.
 ## UI/UX
 
 <p align="center">
-	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/1.png" width="200">
+	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/1.jpeg" width="200">
 	&nbsp; &nbsp; &nbsp; &nbsp
-	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/2.png" width="200">
+	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/2.jpeg" width="200">
     &nbsp; &nbsp; &nbsp; &nbsp
-	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.png" width="200">
+	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.jpeg" width="200">
     &nbsp; &nbsp; &nbsp; &nbsp
-	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.png" width="200">
+	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.jpeg" width="200">
 </p>
 
 ## Tech
