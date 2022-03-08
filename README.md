@@ -22,8 +22,6 @@ You will have higher verbal and non-verbal intelligence.
 	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/2.jpeg" width="200">
     &nbsp; &nbsp; &nbsp; &nbsp
 	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.jpeg" width="200">
-    &nbsp; &nbsp; &nbsp; &nbsp
-	<img src="https://github.com/kumanaya/react-native-duo-language-learning/blob/master/images/4.jpeg" width="200">
 </p>
 
 ## Tech
