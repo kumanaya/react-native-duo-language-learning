@@ -1,17 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import Selectable from '../selectable';
 
+import Tooltip from '../tooltip';
+
 export function Phrase({
-  phrase,
-  words,
+  phraseGerman,
+  wordsEnglish,
+  wordsGerman,
   wordToHidden,
   wordHighlighted,
   getHighlighted,
 }: {
-  phrase: string;
-  words: Array<string>;
+  phraseGerman: string;
+  wordsEnglish: Array<string>;
+  wordsGerman: Array<string>;
   wordToHidden: string;
   wordHighlighted: string;
   getHighlighted: (value: string) => void;
@@ -24,7 +27,7 @@ export function Phrase({
     }
   }
 
-  const renderWordSelectable = (w: any) => {
+  const renderWordSelectable = (w: any, index: any) => {
     if (wordToHidden.indexOf(w) > -1) {
       return (
         <View style={styles.selectable}>
@@ -36,16 +39,28 @@ export function Phrase({
         </View>
       );
     } else {
-      return <Text style={styles.word}>{w} </Text>;
+      return (
+        <View style={styles.wordView}>
+          <Tooltip wordEnglish={wordsEnglish[index]} wordGerman={w} />
+        </View>
+      );
     }
+  };
+
+  const renderWordSplited = (w: any, index: any) => {
+    return (
+      <View style={styles.wordView}>
+        <Tooltip wordEnglish={wordsEnglish[index]} wordGerman={w} />
+      </View>
+    );
   };
 
   const selectableList = (
     <View style={styles.selectableList}>
       <View style={styles.selectableItem}>
-        {words.map((word, index) => {
+        {wordsGerman.map((word, index) => {
           return (
-            <View style={styles.selectableItem}>
+            <View key={index} style={styles.selectableItem}>
               <Selectable
                 word={word}
                 onPressed={() => handleSelectable(word)}
@@ -61,8 +76,7 @@ export function Phrase({
   var phraseComponent;
 
   if (wordHighlighted.length > 1) {
-    const wordsSplited = phrase.split(' ');
-
+    const wordsSplited = phraseGerman.split(' ');
     phraseComponent = (
       <View style={styles.phrase}>
         {React.Children.map(wordsSplited, renderWordSelectable)}
@@ -76,11 +90,13 @@ export function Phrase({
       underline = underline + '_';
     }
 
-    phrase = phrase.replace(wordToHidden, underline);
+    const wordsSplited = phraseGerman
+      .replace(wordToHidden, underline)
+      .split(' ');
 
     phraseComponent = (
       <View style={styles.phrase}>
-        <Text style={styles.word}>{phrase}</Text>
+        {React.Children.map(wordsSplited, renderWordSplited)}
       </View>
     );
   }
@@ -110,8 +126,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     top: '25%',
-    paddingHorizontal: 20,
     flexWrap: 'wrap',
+  },
+  wordView: {
+    paddingHorizontal: '2%',
   },
   selectable: {
     paddingHorizontal: 7,

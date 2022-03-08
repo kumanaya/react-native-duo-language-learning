@@ -1,70 +1,43 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
 import Question from './src/components/question';
 import Phrase from './src/components/phrase';
 import Button from './src/components/button';
-
-interface IFirebase {
-  id: number;
-  phrase: string;
-  answerEnglish: string;
-  answerGerman: string;
-  words: Array<string>;
-}
-
-const firebase = [
-  {
-    id: 1,
-    phrase: 'The house is small.',
-    answerEnglish: 'house',
-    answerGerman: 'hause',
-    words: ['folgen', 'schaf', 'bereiden', 'hause'],
-  },
-  {
-    id: 2,
-    phrase: 'Go and find the driver who arrived here yesterday',
-    answerEnglish: 'who',
-    answerGerman: 'wer',
-    words: ['err', 'wer', 'wessen', 'wen'],
-  },
-  {
-    id: 3,
-    phrase: 'I met her in tuesday.',
-    answerEnglish: 'in',
-    answerGerman: 'in',
-    words: ['in', 'auf', 'an', 'aus'],
-  },
-];
+import firestore from '@react-native-firebase/firestore';
 
 const App = () => {
-  const [questions, setQuestions] = useState<Array<IFirebase>>([]);
-  const [questionCurrent, setQuestionCurrent] = useState<IFirebase>({
-    id: 0,
-    phrase: '',
+  const [questions, setQuestions] = useState<Array<any>>([]);
+  const [questionCurrent, setQuestionCurrent] = useState<any>({
+    phraseEnglish: '',
+    phraseGerman: '',
     answerEnglish: '',
     answerGerman: '',
-    words: [],
+    wordsEnglish: [],
+    wordsGerman: [],
   });
-  const [answered, setAnswered] = useState<Array<IFirebase>>([]);
+  const [answered, setAnswered] = useState<Array<any>>([]);
   const [wordSelected, setWordSelected] = useState<string>('');
   const [buttonState, setButtonState] = useState<string>('disable');
   const [loading, setLoading] = useState<boolean>(false);
 
-  function loadData() {
-    setLoading(true);
-    setQuestions(firebase);
-    initQuest();
+  async function getData() {
+    const snapshot = await firestore().collection('questions').get();
+    return snapshot.docs.map(doc => doc.data());
   }
 
-  function initQuest() {
-    const randomQuestion =
-      firebase[Math.floor(Math.random() * firebase.length)];
+  async function initQuest() {
+    setLoading(true);
 
-    setAnswered([randomQuestion]);
-    setQuestionCurrent(randomQuestion);
+    const data = await getData();
+
+    if (data) {
+      const randomQuestion = data[Math.floor(Math.random() * data.length)];
+
+      setQuestions(data);
+      setAnswered([randomQuestion]);
+      setQuestionCurrent(randomQuestion);
+    }
     setLoading(false);
   }
 
@@ -79,7 +52,11 @@ const App = () => {
   }
 
   function awnserCheck() {
-    if (wordSelected === questionCurrent.answerGerman) {
+    if (questions.length === answered.length) {
+      console.log('===============');
+      console.log('Questions Reset!');
+      awnserReset();
+    } else if (wordSelected === questionCurrent.answerGerman) {
       setButtonState('correct');
     } else {
       setButtonState('incorrect');
@@ -87,10 +64,10 @@ const App = () => {
   }
 
   function awnserNext() {
-    const notAnswered = questions.filter(function (cv) {
-      return !answered.find(function (e) {
+    const notAnswered = questions.filter(function (x) {
+      return !answered.find(function (y) {
         // eslint-disable-next-line dot-notation
-        return (e['id'] as any) === (cv['id'] as any);
+        return (y['id'] as any) === (x['id'] as any);
       });
     });
 
@@ -100,7 +77,7 @@ const App = () => {
     setButtonState('disable');
     setWordSelected('');
     setQuestionCurrent(randomQuestion as any);
-    setAnswered([...[randomQuestion]]);
+    setAnswered([...answered, randomQuestion]);
   }
 
   function awnserReset() {
@@ -110,13 +87,16 @@ const App = () => {
   }
 
   useEffect(() => {
-    loadData();
+    initQuest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) {
     return (
-      <View>
-        <Text>Loading</Text>
+      <View style={styles.background}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Fill in the missing word</Text>
+        </View>
       </View>
     );
   } else {
@@ -125,13 +105,14 @@ const App = () => {
         <View style={styles.container}>
           <Text style={styles.title}>Fill in the missing word</Text>
           <Question
-            phrase={questionCurrent.phrase}
-            word={questionCurrent.answerEnglish}
+            phraseEnglish={questionCurrent.phraseEnglish}
+            answerEnglish={questionCurrent.answerEnglish}
           />
           <Phrase
-            phrase={questionCurrent.phrase}
-            words={questionCurrent.words}
-            wordToHidden={questionCurrent.answerEnglish}
+            phraseGerman={questionCurrent.phraseGerman}
+            wordsEnglish={questionCurrent.wordsEnglish}
+            wordsGerman={questionCurrent.wordsGerman}
+            wordToHidden={questionCurrent.answerGerman}
             wordHighlighted={wordSelected}
             getHighlighted={getAwnser}
           />

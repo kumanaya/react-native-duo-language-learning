@@ -1,9 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 
-export function Question({phrase, word}: {phrase: string; word: string}) {
-  const words = phrase.split(' ');
-  const wordsToHighlight = word;
+export function Question({
+  phraseEnglish,
+  answerEnglish,
+}: {
+  phraseEnglish: string;
+  answerEnglish: string;
+}) {
+  const words = phraseEnglish.split(' ');
+  const wordsToHighlight = answerEnglish;
 
   const renderWord = (w: any) => {
     if (wordsToHighlight.indexOf(w) > -1) {

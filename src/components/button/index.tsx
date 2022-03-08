@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
   StyleSheet,
@@ -75,7 +74,7 @@ export function Button({
         <View style={styles.container}>
           <View style={styles.content}>
             <Pressable
-              onPress={() => console.log('disable')}
+              onPress={null}
               style={[styles.button, styles.buttonDisable]}>
               <Text style={styles.text}>CONTINUE</Text>
             </Pressable>
