@@ -11,19 +11,17 @@ export function Question({
   const words = phraseEnglish.split(' ');
   const wordsToHighlight = answerEnglish;
 
-  const renderWord = (w: any) => {
-    if (wordsToHighlight.indexOf(w) > -1) {
-      return <Text style={styles.questionCorrect}>{w} </Text>;
+  const renderWord = (word: any) => {
+    if (wordsToHighlight.indexOf(word) > -1) {
+      return <Text style={styles.questionCorrect}>{word} </Text>;
     } else {
-      return <Text>{w} </Text>;
+      return <Text>{word} </Text>;
     }
   };
 
-  const component = (
+  return (
     <Text style={styles.question}>{React.Children.map(words, renderWord)}</Text>
   );
-
-  return component;
 }
 
 export default Question;

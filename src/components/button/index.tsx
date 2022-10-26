@@ -10,6 +10,70 @@ import {
 
 import iconFlag from '../assets/icon-flag.png';
 
+const ButtonCorrect = ({
+  onPressedNext,
+}: {
+  onPressedNext: ((event: GestureResponderEvent) => void) | null | undefined;
+}) => (
+  <View style={styles.container}>
+    <View style={[styles.content, styles.containerCorrect]}>
+      <View style={styles.row}>
+        <Text style={styles.title}>Great Job!</Text>
+        <Image source={iconFlag} style={styles.icon} />
+      </View>
+      <Pressable onPress={onPressedNext} style={styles.button}>
+        <Text style={[styles.text, styles.textCorrect]}>CONTINUE</Text>
+      </Pressable>
+    </View>
+  </View>
+);
+
+const ButtonIncorrect = ({
+  onPressedReset,
+  wordCorrect,
+}: {
+  onPressedReset: any;
+  wordCorrect: string;
+}) => (
+  <View style={styles.container}>
+    <View style={[styles.content, styles.containerIncorrect]}>
+      <View style={styles.row}>
+        <Text style={styles.title}>Anwser: {wordCorrect}</Text>
+        <Image source={iconFlag} style={styles.icon} />
+      </View>
+      <Pressable onPress={onPressedReset} style={styles.button}>
+        <Text style={[styles.text, styles.textIncorrect]}>CONTINUE</Text>
+      </Pressable>
+    </View>
+  </View>
+);
+
+const ButtonCheck = ({
+  onPressedCheck,
+}: {
+  onPressedCheck: ((event: GestureResponderEvent) => void) | null | undefined;
+}) => (
+  <View style={styles.container}>
+    <View style={styles.content}>
+      <Pressable
+        onPress={onPressedCheck}
+        style={[styles.button, styles.buttonCheck]}>
+        <Text style={styles.text}>CHECK ANSWER</Text>
+      </Pressable>
+    </View>
+  </View>
+);
+
+const ButtonDisable = () => (
+  <View style={styles.container}>
+    <View style={styles.content}>
+      <Pressable style={[styles.button, styles.buttonDisable]}>
+        <Text style={styles.text}>CONTINUE</Text>
+      </Pressable>
+    </View>
+  </View>
+);
+
 export function Button({
   state,
   wordCorrect,
@@ -19,71 +83,27 @@ export function Button({
 }: {
   state: string;
   wordCorrect: string;
-  onPressedCheck: ((event: GestureResponderEvent) => void) | null | undefined;
   onPressedNext: ((event: GestureResponderEvent) => void) | null | undefined;
+  onPressedCheck: ((event: GestureResponderEvent) => void) | null | undefined;
   onPressedReset: ((event: GestureResponderEvent) => void) | null | undefined;
 }) {
-  var component = null;
-
   switch (state) {
     case 'correct':
-      component = (
-        <View style={styles.container}>
-          <View style={[styles.content, styles.containerCorrect]}>
-            <View style={styles.row}>
-              <Text style={styles.title}>Great Job!</Text>
-              <Image source={iconFlag} style={styles.icon} />
-            </View>
-            <Pressable onPress={onPressedNext} style={styles.button}>
-              <Text style={[styles.text, styles.textCorrect]}>CONTINUE</Text>
-            </Pressable>
-          </View>
-        </View>
-      );
-      break;
+      return <ButtonCorrect onPressedNext={onPressedNext} />;
     case 'incorrect':
-      component = (
-        <View style={styles.container}>
-          <View style={[styles.content, styles.containerIncorrect]}>
-            <View style={styles.row}>
-              <Text style={styles.title}>Anwser: {wordCorrect}</Text>
-              <Image source={iconFlag} style={styles.icon} />
-            </View>
-            <Pressable onPress={onPressedReset} style={styles.button}>
-              <Text style={[styles.text, styles.textIncorrect]}>CONTINUE</Text>
-            </Pressable>
-          </View>
-        </View>
+      return (
+        <ButtonIncorrect
+          onPressedReset={onPressedReset}
+          wordCorrect={wordCorrect}
+        />
       );
-      break;
     case 'check':
-      component = (
-        <View style={styles.container}>
-          <View style={styles.content}>
-            <Pressable
-              onPress={onPressedCheck}
-              style={[styles.button, styles.buttonCheck]}>
-              <Text style={styles.text}>CHECK ANSWER</Text>
-            </Pressable>
-          </View>
-        </View>
-      );
-      break;
+      return <ButtonCheck onPressedCheck={onPressedCheck} />;
     case 'disable':
-      component = (
-        <View style={styles.container}>
-          <View style={styles.content}>
-            <Pressable
-              onPress={null}
-              style={[styles.button, styles.buttonDisable]}>
-              <Text style={styles.text}>CONTINUE</Text>
-            </Pressable>
-          </View>
-        </View>
-      );
-      break;
+      return <ButtonDisable />;
+    default:
+      return <View />;
   }
-  return component;
 }
 
 export default Button;

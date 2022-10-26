@@ -4,9 +4,9 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
-import Question from './src/components/question';
-import Phrase from './src/components/phrase';
-import Button from './src/components/button';
+import Question from './src/components/Question';
+import Phrase from './src/components/Phrase';
+import Button from './src/components/Button';
 
 interface IQuestion {
   id?: number;
@@ -60,14 +60,14 @@ const App = () => {
     return data[Math.floor(Math.random() * data.length)];
   };
 
-  const getAwnser = (value: string) => {
-    if (value === '') {
-      setSelected(value);
+  const getAwnser = (word: string) => {
+    if (word === '') {
+      setSelected(word);
       setButton('disable');
-    } else {
-      setSelected(value);
-      setButton('check');
+      return;
     }
+    setSelected(word);
+    setButton('check');
   };
 
   const awnserCheck = () => {
@@ -98,7 +98,7 @@ const App = () => {
 
     setButton('disable');
     setSelected('');
-    setCurrent(randomQuestion as any);
+    setCurrent(randomQuestion);
     setAnswered([...answered, randomQuestion]);
   };
 
@@ -142,9 +142,9 @@ const App = () => {
         <Button
           state={button}
           wordCorrect={current.answerGerman}
-          onPressedCheck={() => awnserCheck()}
-          onPressedNext={() => awnserNext()}
-          onPressedReset={() => awnserReset()}
+          onPressedCheck={awnserCheck}
+          onPressedNext={awnserNext}
+          onPressedReset={awnserReset}
         />
       </View>
     </View>

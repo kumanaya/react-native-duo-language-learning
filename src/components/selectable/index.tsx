@@ -7,7 +7,7 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 
-export function Selectable({
+const Selectable = ({
   onPressed,
   word,
   isPressed,
@@ -15,17 +15,16 @@ export function Selectable({
   onPressed: ((event: GestureResponderEvent) => void) | null | undefined;
   word: string;
   isPressed: boolean;
-}) {
+}) => {
   if (!isPressed) {
     return (
       <Pressable onPress={onPressed} style={styles.button}>
         <Text style={styles.text}>{word}</Text>
       </Pressable>
     );
-  } else {
-    return <View style={styles.buttonPressed} />;
   }
-}
+  return <View style={styles.buttonPressed} />;
+};
 
 export default Selectable;
 

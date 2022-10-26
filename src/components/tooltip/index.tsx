@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 
-export function Tooltip({
+const Tooltip = ({
   wordEnglish,
   wordGerman,
 }: {
   wordEnglish: string;
   wordGerman: string;
-}) {
+}) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   function onPressed() {
@@ -29,16 +29,16 @@ export function Tooltip({
         </View>
       </Pressable>
     );
-  } else {
-    return (
-      <Pressable onPress={onPressed}>
-        <View style={styles.wordView}>
-          <Text style={styles.word}>{wordGerman}</Text>
-        </View>
-      </Pressable>
-    );
   }
-}
+
+  return (
+    <Pressable onPress={onPressed}>
+      <View style={styles.wordView}>
+        <Text style={styles.word}>{wordGerman}</Text>
+      </View>
+    </Pressable>
+  );
+};
 
 export default Tooltip;
 
